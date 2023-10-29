@@ -171,7 +171,8 @@ PRODUCT_PACKAGES += \
 
 # DRM
 PRODUCT_PACKAGES += \
-    android.hardware.drm@1.4-service.clearkey
+    android.hardware.drm@1.4-service.clearkey \
+    libprotobuf-cpp-lite-3.9.1-vendorcompat
 
 PRODUCT_PACKAGES += \
     android.hardware.broadcastradio@1.0-impl
