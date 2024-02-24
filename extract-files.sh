@@ -59,6 +59,9 @@ function blob_fixup() {
             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v30.so" "${2}"
             "${PATCHELF}" --replace-needed "libhidlbase.so" "libhidlbase-v32.so" "${2}"
             ;;
+       vendor/lib/libOPPORectify.so|vendor/lib/libarcsoft_beautyshot_lite_image.so|vendor/lib/libarcsoft_hdr_couple_api.so|vendor/lib/libarcsoft_high_dynamic_range_couple.so|vendor/lib/libarcsoft_picauto.so|vendor/lib/libblur_channel.so|vendor/lib/libthread_blur.so|vendor/lib/libdepthmap.so)
+            "${PATCHELF}" --replace-needed "libstdc++.so" "libstdc++_vendor.so" "${2}"
+            ;;
     esac
 }
 
