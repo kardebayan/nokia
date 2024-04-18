@@ -97,8 +97,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.camera.device@1.0 \
     vendor.qti.hardware.camera.device@1.0.vendor \
     libstdc++_vendor \
-    libdng_sdk.vendor \
-    GCamGOPrebuilt
+    libdng_sdk.vendor
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -377,7 +376,8 @@ PRODUCT_PACKAGES += \
     WifiOverlayR5x \
     FrameworksOverlayR5x \
     TetheringCOverlayR5x \
-    BluetoothOverlayR5x
+    BluetoothOverlayR5x \
+    ApertureOverlayR5x
 
 # Power
 PRODUCT_PACKAGES += \
