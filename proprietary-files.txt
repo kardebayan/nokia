@@ -2102,13 +2102,13 @@ vendor/lib64/libssd.so|ad3ccaeab10635594f64602a69265a1d02a9be8f
 vendor/lib64/libtrustedapploader.so|25d17a1b9e87562a8b1c6167b48d8ab283736354
 vendor/lib64/vendor.qti.hardware.qseecom@1.0.so|ac913be657a31fd421da00825ef9900bf82cd6f6
 
-# DRM - Widevine
-vendor/bin/hw/android.hardware.drm@1.3-service.widevine
-vendor/etc/init/android.hardware.drm@1.3-service.widevine.rc
--vendor/etc/vintf/manifest/manifest_android.hardware.drm@1.3-service.widevine.xml
-vendor/lib/libQSEEComAPI.so
-vendor/lib64/libQSEEComAPI.so
-vendor/lib64/libwvhidl.so
+# DRM ( Widevine ) - from ginkgo MIUI 21.3.3
+vendor/bin/hw/android.hardware.drm@1.3-service.widevine|75103a18355966370895526dc9afb6adff4b755b
+vendor/etc/init/android.hardware.drm@1.3-service.widevine.rc|c35e1a6f9a6faff19064a81e07c4be82ceaf4bb5
+-vendor/etc/vintf/manifest/manifest_android.hardware.drm@1.3-service.widevine.xml|ebebcf8f367641480cf7d512fc06e6ab777527be
+vendor/lib/libQSEEComAPI.so|21a9b89ddcf5f753129437484d3ffd0e5baca88c
+vendor/lib64/libQSEEComAPI.so|05ef951b2fb7ea8f22968b6adbaa6ce0f8f510f5
+vendor/lib64/libwvhidl.so|fb8088d4a47b7a3918c798c58e1636c10bce3427
 
 # DSP - from RMX2050_11.C.10 qssi-user-RKQ1.200903.002
 vendor/bin/dspservice|00dcd6e79d32426b15ed2148bf3c05082c400c9e
