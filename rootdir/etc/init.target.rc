@@ -75,8 +75,9 @@ on late-fs
     start surfaceflinger
     start bootanim
 
-    start vendor.configstore-hal
+    start vendor.hwcomposer-2-4
     start vendor.gralloc-2-0
+    start vendor.qti.hardware.display.allocator
 
     # Wait for hwservicemanager ready since fsck might be triggered in mount_all --late
     # In such case, init won't responce the property_set from hwservicemanager and then
@@ -99,7 +100,7 @@ on post-fs-data
 # For cpusets initialize for Silver Only first and then Silver + Gold
 # Silver Only configuration cannot work with 0-7
 on boot
-    start rmt_storage
+    start vendor.rmt_storage
     start rfs_access
     write /dev/cpuset/top-app/cpus 0-3
     write /dev/cpuset/audio-app/cpus 1-2
@@ -191,6 +192,9 @@ on charger
     setprop vendor.usb.controller 4e00000.dwc3
     setprop sys.usb.configfs 1
 
+on property:sys.boot_from_charger_mode=1
+    class_stop charger
+
 on property:vendor.display.lcd_density=640
    setprop dalvik.vm.heapgrowthlimit 512m
 on property:vendor.display.lcd_density=560
@@ -274,7 +278,8 @@ service cdsprpcd /vendor/bin/cdsprpcd
    class main
    user system
    group system
-
+   disabled
+   
 #service audiod /vendor/bin/audiod
 #   class late_start
 #   user system
@@ -503,6 +508,23 @@ service oppoalgo_daemon /vendor/bin/oppoalgo_daemon
 
 on property:sys.boot_completed=1
     start oppoalgo_daemon
-	
-on property:sys.boot_from_charger_mode=1
-    class_stop charger	
+
+# Enable suspend to RAM
+    write /sys/power/mem_sleep "deep"
+
+# Include logger service
+service logger /system/bin/logcat -b all -D -f /cache/boot_log.txt
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on post-fs-data
+    # Clear existing log and start the service
+    rm /cache/boot_log.txt
+    start logger
+
+on property:sys.boot_completed=1
+    # Stop the logger service
+    stop logger

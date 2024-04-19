@@ -69,20 +69,6 @@
     <!-- Is the device capable of hot swapping an ICC Card -->
     <bool name="config_hotswapCapable">true</bool>
 
-    <!-- Set to true if the wifi display supports compositing content stored
-         in gralloc protected buffers.  For this to be true, there must exist
-         a protected hardware path for surface flinger to composite and send
-         protected buffers to the wifi display video encoder.
-
-         If this flag is false, we advise applications not to use protected
-         buffers (if possible) when presenting content to a wifi display because
-         the content may be blanked.
-
-         This flag controls whether the {@link Display#FLAG_SUPPORTS_PROTECTED_BUFFERS}
-         flag is set for wifi displays.
-    -->
-    <bool name="config_wifiDisplaySupportsProtectedBuffers">true</bool>
-
     <!-- MMS user agent string -->
     <string name="config_mms_user_agent" translatable="false">Android-Mms/2.0</string>
 
@@ -102,13 +88,14 @@
     <string-array translatable="false" name="config_defaultPinnerServiceFiles">
         <item>"/system/framework/framework.jar"</item>
         <item>"/system/framework/services.jar"</item>
-        <item>"/apex/com.android.art/javalib/arm64/boot.oat"</item>
-        <item>"/apex/com.android.art/javalib/arm64/boot-core-libart.oat"</item>
         <item>"/apex/com.android.art/javalib/core-oj.jar"</item>
         <item>"/apex/com.android.art/javalib/core-libart.jar"</item>
-        <item>"/apex/com.android.media/javalib/updatable-media.jar"</item>
         <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
-        <item>"/system/bin/libsurfaceflinger"</item>
+        <item>"/system/bin/surfaceflinger"</item>
+        <item>"/system/lib64/libEGL.so"</item>
+        <item>"/system/lib64/libhwui.so"</item>
+        <item>"/vendor/lib64/egl/libGLESv2_adreno.so"</item>
+        <item>"/vendor/lib64/libgsl.so"</item>
     </string-array>
 
     <!-- Should the pinner service pin the Home application? -->
@@ -121,6 +108,9 @@
 
     <!-- Whether device supports double tap to wake -->
     <bool name="config_supportDoubleTapWake">true</bool>
+
+    <!-- Default value for performant auth feature. -->
+    <bool name="config_performantAuthDefault">true</bool>
 
     <!-- If true, the screen can be rotated via the accelerometer in all 4
          rotations as the default behavior. -->
@@ -198,6 +188,9 @@
     <bool name="config_powerDecoupleInteractiveModeFromDisplay">false</bool>
     <bool name="config_setColorTransformAccelerated">true</bool>
 
+   <!-- Operating volatage for bluetooth controller. 0 by default-->
+   <integer translatable="false" name="config_bluetooth_operating_voltage_mv">3300</integer>
+
    <!-- The duration (in milliseconds) for the outgoing sms authorization request to timeout.-->
    <integer name="config_sms_authorization_timeout_ms">15000</integer>
 
@@ -207,6 +200,9 @@
    <!-- When true use the linux /dev/input/event subsystem to detect the switch changes
    on the headphone/microphone jack. When false use the older uevent framework -->
    <bool name="config_useDevInputEventForAudioJack">true</bool>
+
+    <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveNotificationLed">false</bool>
 
     <!-- True if the firmware supports p2p MAC randomization -->
     <bool name="config_wifi_p2p_mac_randomization_supported">true</bool>
@@ -274,14 +270,6 @@
     <!-- Whether device has screen with higher aspect ratio -->
     <bool name="config_haveHigherAspectRatioScreen">true</bool>
 
-    <!-- Whether device has a notch -->
-    <bool name="config_haveNotch">true</bool>
-
-    <!-- SQLite -->
-    <string name="db_default_journal_mode">MEMORY</string>
-    <string name="db_default_sync_mode">OFF</string>
-    <string name="db_wal_sync_mode">OFF</string>
-
     <!-- Flag indicating whether we should enable the automatic brightness.
          Software implementation will be used if config_hardware_auto_brightness_available is not set -->
     <bool name="config_automatic_brightness_available">true</bool>
@@ -297,7 +285,12 @@
          brightness changes occur in response to an observed change in light level that exceeds the
          hysteresis threshold. -->
     <integer name="config_autoBrightnessBrighteningLightDebounce">1000</integer>
-    <integer name="config_autoBrightnessDarkeningLightDebounce">4000</integer>
+    <integer name="config_autoBrightnessDarkeningLightDebounce">2000</integer>
+
+    <!-- Amount of time it takes for the light sensor to warm up in milliseconds.
+     For this time after the screen turns on, the Power Manager
+     will not debounce light sensor readings -->
+    <integer name="config_lightSensorWarmupTime">200</integer>
 
     <!-- Power Management: Specifies whether to decouple the auto-suspend state of the
          device from the display on/off state.
@@ -326,7 +319,7 @@
          This value may be zero in which case the screen will not dim before the
          device goes to sleep.
     -->
-    <integer name="config_maximumScreenDimDuration">18000</integer>
+    <integer name="config_maximumScreenDimDuration">7000</integer>
 
     <!-- User activity timeout: Maximum screen dim duration as a percentage of screen off timeout.
          This resource is similar to config_maximumScreenDimDuration but the maximum
@@ -339,7 +332,7 @@
          This value must be between 0% and 100%.  If the value is zero, the screen will not
          dim before the device goes to sleep.
     -->
-    <fraction name="config_maximumScreenDimRatio">30%</fraction>
+    <fraction name="config_maximumScreenDimRatio">20%</fraction>
 
     <!-- Fast brightness animation ramp rate in brightness units per second-->
      <integer name="config_brightness_ramp_rate_fast">180</integer>
@@ -352,15 +345,15 @@
 
     <!-- Minimum screen brightness setting allowed by the power manager.
          The user is forbidden from setting the brightness below this level. -->
-    <integer name="config_screenBrightnessSettingMinimum">1</integer>
+    <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.0</item>
 
     <!-- Maximum screen brightness allowed by the power manager.
          The user is forbidden from setting the brightness above this level. -->
-    <integer name="config_screenBrightnessSettingMaximum">255</integer>
+    <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">1.0</item>
 
     <!-- Default screen brightness setting.
          Must be in the range specified by minimum and maximum. -->
-     <integer name="config_screenBrightnessSettingDefault">44</integer>
+     <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.4</item>
 
     <!-- Screen brightness used to dim the screen when the user activity
          timeout expires.  May be less than the minimum allowed brightness setting
@@ -441,13 +434,44 @@
     <!-- Whether to cancel fingerprint operation if not idle -->
     <bool name="config_fpCancelIfNotIdle">true</bool>
 
-    <!-- List supported color modes. --> 
-     <integer-array name="config_availableColorModes">
-           <item>0</item> <!-- COLOR_MODE_NATURAL -->
-           <item>1</item> <!-- COLOR_MODE_BOOSTED -->
-           <item>2</item> <!-- COLOR_MODE_SATURATED -->
-           <item>3</item> <!-- COLOR_MODE_AUTOMATIC -->
-                            </integer-array>
+    <!-- Enable Night display, which requires HWC 2.0. -->
+    <bool name="config_nightDisplayAvailable">true</bool>
+
+    <!-- Default color temperature, in Kelvin, to tint the screen when Night display is
+         activated. -->
+    <integer name="config_nightDisplayColorTemperatureDefault">3339</integer>
+
+    <!-- Boolean indicating whether the HWC setColorTransform function can be performed efficiently
+         in hardware for individual layers. -->
+    <bool name="config_setColorTransformAcceleratedPerLayer">true</bool>
+
+    <!-- Maximum color temperature, in Kelvin, supported by Night display.
+         Setting this to track the default color temperature value (currently 6500K). -->
+    <integer name="config_nightDisplayColorTemperatureMax">6500</integer>
+
+    <!-- Is the battery LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveBatteryLed">false</bool>
+
+    <!-- Exempt ImsService from privacy (location) indicators -->
+    <string name="config_systemTelephonyPackage" translatable="false">com.qualcomm.qti.cne</string>
+
+    <!-- Determines whether the shell features all run on another thread. -->
+    <bool name="config_enableShellMainThread">true</bool>
+
+    <!-- If not empty, sets the AVC codec profile level used for the internal screen recorder.
+         Possible values: 3, 3.1, 3.2, 4, 4.1, 4.2
+    -->
+    <string name="config_screenRecorderAVCProfileLevel" translatable="false">3.1</string>
+
+    <!-- List of comma separated package names for which we the system will not show crash, ANR,
+         etc. dialogs. -->
+    <string name="config_appsNotReportingCrashes">com.google.android.tts</string>
+
+    <!-- Feature flag to store TaskSnapshot in 16 bit pixel format to save memory. -->
+    <bool name="config_use16BitTaskSnapshotPixelFormat">true</bool>
+
+    <!-- If this is true, device supports Sustained Performance Mode. -->
+    <bool name="config_sustainedPerformanceModeSupported">true</bool>
 
     <!-- Flag indicating whether the surface flinger is inefficient
          at performing a blur.  Used by parts of the UI to turn off
@@ -455,40 +479,14 @@
          As of Honeycomb, blurring is not supported anymore. -->
     <bool name="config_sf_slowBlur">false</bool>
 
-    <!-- Package name of a telephony-related system app, such as an IMS service.
-         Exempted from privacy indicators. -->
-    <string name="config_systemTelephonyPackage" translatable="false">com.qualcomm.qti.cne</string>
+    <!-- Unify back gesture vibration with system wide haptics -->
+    <bool name="config_vibrateOnIconAnimation">true</bool>
 
-    <!-- If this is true, device supports Sustained Performance Mode. -->
-    <bool name="config_sustainedPerformanceModeSupported">true</bool>
-
-    <!-- List of comma separated package names for which we the system will not show crash, ANR,
-         etc. dialogs. -->
-    <string name="config_appsNotReportingCrashes">com.google.android.tts</string>
-
-    <!-- Determines whether the shell features all run on another thread. -->
-    <bool name="config_enableShellMainThread">true</bool>
-
-    <!-- Fingerprint from stock ROM -->
-    <string name="config_stockFingerprint" translatable="false">trinket-user 10 QKQ1.200209.002 release-keys</string>
-    <!-- The list of package IDs that are allowed to use aux cameras.
-         NOTE: If this list is empty then all apps will be able to use aux cameras. -->
-    <string-array name="config_cameraAuxPackageAllowList" translatable="false">
-        <item>com.google.android.GoogleCameraEng</item>
-        <item>com.google.android.GoogleCamera</item>
-        <item>com.google.android.apps.cameralite</item>
-        <item>org.codeaurora.snapcam</item>
-        <item>com.android.camera</item>
-        <item>org.lineageos.aperture</item>
-        <item>org.lineageos.aperture.dev</item>
-    </string-array>
-
-    <!-- The list of package IDs that are not allowed to use aux cameras. -->
-    <string-array name="config_cameraAuxPackageExcludeList" translatable="false">
-        <item>org.telegram.messenger</item>
-        <item>com.microsoft.teams</item>
-        <item>com.discord</item>
-        <item>org.thunderdog.challegram</item>
-        <item>tw.nekomimi.nekogram</item>
-    </string-array>
+    <!-- Defines the actions shown in advanced reboot submenu -->
+    <string-array name="config_restartActionsList">
+        <item>restart</item>
+        <item>restart_recovery</item>
+        <item>restart_bootloader</item>
+        <item>restart_fastboot</item>
+     </string-array>
 </resources>

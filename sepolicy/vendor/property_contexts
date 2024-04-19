@@ -20,22 +20,21 @@ init.svc.fps_hal                        u:object_r:oppo_fingerprint_prop:s0
 ro.product.prjversion                   u:object_r:exported_default_prop:s0
 ro.product.wtconfig                     u:object_r:exported_default_prop:s0
 
-# Hardware
-ro.hardware.chipname                    u:object_r:exported_default_prop:s0
+# Fastbootd
+ro.fastbootd.available                  u:object_r:exported_default_prop:s0
 
 # GSM prop
 gsm.operator.numeric                    u:object_r:radio_prop:s0
 
 # Camera
-oppo.camera.                                u:object_r:vendor_camera_prop:s0
-persist.front.skipdisplay.enable            u:object_r:vendor_camera_prop:s0
-persist.aec.manual.mode                     u:object_r:vendor_camera_prop:s0
-persist.camera.                             u:object_r:vendor_camera_prop:s0
-zoom.eis.enable                             u:object_r:vendor_camera_prop:s0
-ro.camera.                                  u:object_r:vendor_camera_prop:s0
-persist.oppo.camera.                        u:object_r:vendor_camera_prop:s0
-vendor.oppo.camera.                         u:object_r:vendor_camera_prop:s0
-vendor.camera.skip_unconfigure.packagelist  u:object_r:vendor_camera_prop:s0
+oppo.camera.                            u:object_r:vendor_camera_prop:s0
+persist.front.skipdisplay.enable        u:object_r:vendor_camera_prop:s0
+persist.aec.manual.mode                 u:object_r:vendor_camera_prop:s0
+persist.camera.                         u:object_r:vendor_camera_prop:s0
+ro.camera.                              u:object_r:vendor_camera_prop:s0
+persist.oppo.camera.                    u:object_r:vendor_camera_prop:s0
+vendor.oppo.camera.                     u:object_r:vendor_camera_prop:s0
+zoom.eis.enable                         u:object_r:vendor_camera_prop:s0
 
 # Oppo debug props
 persist.ipe.debug                       u:object_r:oppo_debug_prop:s0
@@ -92,6 +91,3 @@ ro.logdumpd.enabled                  u:object_r:oppo_debug_prop:s0
 
 persist.radio.is_vonr_enabled_1      u:object_r:radio_prop:s0
 persist.radio.is_vonr_enabled_0      u:object_r:radio_prop:s0
-
-# FM
-ro.vendor.fm.use_audio_session		u:object_r:exported_system_prop:s0

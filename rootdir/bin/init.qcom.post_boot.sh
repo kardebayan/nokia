@@ -1147,7 +1147,10 @@ case "$target" in
             echo -6 >  /sys/devices/system/cpu/cpu7/sched_load_boost
             echo 85 > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/hispeed_load
             echo 85 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/hispeed_load
-
+            
+            # Disable cdsprpcd daemon
+            setprop vendor.fastrpc.disable.cdsprpcd.daemon 1
+            
             # Set Memory parameters
             configure_memory_parameters
 
@@ -1231,8 +1234,6 @@ case "$target" in
     ;;
     "msm8909" | "msm8916" | "msm8937" | "msm8952" | "msm8953" | "msm8994" | "msm8992" | "msm8996" | "msm8998" | "sdm660" | "apq8098_latv" | "sdm845" | "sdm710" | "msmnile" | "msmsteppe" | "sm6150" | "kona" | "lito" | "trinket" | "atoll" | "bengal" | "sdmshrike")
         setprop vendor.post_boot.parsed 1
-        # Enable PowerHAL hint processing
-        setprop vendor.powerhal.init 1
     ;;
     "apq8084")
         rm /data/system/perfd/default_values

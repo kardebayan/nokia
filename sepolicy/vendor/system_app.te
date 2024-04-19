@@ -1,5 +1,28 @@
 allow system_app proc_touchpanel:file rw_file_perms;
 allow system_app proc_pagetypeinfo:file { read };
 allow system_app oppo_debug_prop:file { read open map getattr };
-
 r_dir_file(system_app, proc_touchpanel);
+allow system_app sysfs_battery_supply:dir { search };
+allow system_app sysfs_battery_supply:file { read open getattr };
+allow system_app sysfs_zram:dir search;
+allow system_app sysfs_zram:file r_file_perms;
+
+# RealmeParts
+allow system_app kcal_sysfs:file rw_file_perms;
+allow system_app kcal_sysfs:dir search;
+allow system_app proc_touchpanel:file rw_file_perms;
+allow system_app proc_touchpanel:dir search;
+allow system_app sysfs_usb_fastcharge:file rw_file_perms;
+allow system_app sysfs_usb_supply:dir search;
+allow system_app sysfs_usb_supply:file rw_file_perms;
+allow system_app sysfs_usb_supply:dir search;
+allow system_app sysfs_leds:dir search;
+allow system_app vibrator_dev:dir search;
+allow system_app vibrator_dev:file rw_file_perms;
+allow system_app sysfs_headphonegain:file rw_file_perms;
+allow system_app sysfs_micgain:file rw_file_perms;
+allow system_app sysfs_speakergain:file rw_file_perms;
+
+get_prop(system_app, system_prop);
+set_prop(system_app, system_prop);
+

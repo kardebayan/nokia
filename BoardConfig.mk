@@ -6,99 +6,46 @@
 
 DEVICE_PATH := device/realme/r5x
 
-BOARD_VENDOR := realme
-
-BUILD_BROKEN_DUP_RULES := true
-BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
-BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
-BUILD_BROKEN_VENDOR_PROPERTY_NAMESPACE := true
-BUILD_BROKEN_ENFORCE_SYSPROP_OWNER := true
-BUILD_BROKEN_INCORRECT_PARTITION_IMAGES := true
-
 # Assert
 TARGET_OTA_ASSERT_DEVICE := RMX1911,RMX1925,RMX1927,RMX2030,r5x,realme_trinket
 
-# Boot animation
-TARGET_SCREEN_HEIGHT := 1600
-TARGET_SCREEN_WIDTH := 720
-
-# Display
-TARGET_SCREEN_DENSITY := 320
-
 # Android Verified Boot
 BOARD_AVB_ENABLE := true
-BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
-BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
 BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA4096
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX := 1
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 1
-
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := trinket
-TARGET_NO_BOOTLOADER := true
-
-# Platform
-TARGET_BOARD_PLATFORM := trinket
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno610
-
-# Properties
-BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/props/system.prop
-TARGET_SYSTEM_EXT_PROP += $(DEVICE_PATH)/props/system_ext.prop
-TARGET_PRODUCT_PROP += $(DEVICE_PATH)/props/product.prop
-TARGET_VENDOR_PROP += $(DEVICE_PATH)/props/vendor.prop
-
-# Init
-TARGET_INIT_VENDOR_LIB := libinit_r5x
-TARGET_RECOVERY_DEVICE_MODULES := libinit_r5x
 
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := generic
-TARGET_CPU_VARIANT_RUNTIME := cortex-a73
+TARGET_CPU_VARIANT := cortex-a73
 
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
-TARGET_2ND_CPU_VARIANT := generic
-TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a73
-
-# Kernel
-BOARD_BOOTIMG_HEADER_VERSION := 1
-BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=1 earlycon=msm_geni_serial,0x4a90000 loop.max_part=7 cgroup.memory=nokmem,nosocket
-BOARD_KERNEL_CMDLINE += androidboot.android_dt_dir=/non-existent androidboot.boot_devices=soc/4744000.sdhci
-BOARD_KERNEL_CMDLINE += androidboot.init_fatal_reboot_target=recovery
-BOARD_KERNEL_CMDLINE += kpti=off
-BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
-BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_OFFSET := 0x00008000
-BOARD_KERNEL_TAGS_OFFSET := 0x00000100
-BOARD_RAMDISK_OFFSET := 0x01000000
-BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_KERNEL_SOURCE := kernel/realme/r5x
-TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_CONFIG := vendor/r5x_defconfig
-TARGET_KERNEL_ADDITIONAL_FLAGS := \
-   HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
-
-# QCOM hardware
-BOARD_USES_QCOM_HARDWARE := true
+TARGET_2ND_CPU_VARIANT := cortex-a73
 
 # Audio
 AUDIO_FEATURE_ENABLED_AAC_ADTS_OFFLOAD := true
 AUDIO_FEATURE_ENABLED_AUDIOSPHERE := true
-AUDIO_FEATURE_ENABLED_EXTN_FORMATS := true
-AUDIO_FEATURE_ENABLED_HDMI_SPK := true
-AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
-AUDIO_FEATURE_ENABLED_FM_POWER_OPT := true
-USE_CUSTOM_AUDIO_POLICY := 0
+AUDIO_FEATURE_ENABLED_EXTENDED_COMPRESS_FORMAT := true
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1600
+TARGET_SCREEN_WIDTH := 720
+
+# Build
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
+BUILD_BROKEN_ENFORCE_SYSPROP_OWNER := true
+BUILD_BROKEN_VENDOR_PROPERTY_NAMESPACE := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_INCORRECT_PARTITION_IMAGES := true
 
 # Bluetooth
 BLUETOOTH_HCI_USE_MCT := true
@@ -106,47 +53,82 @@ TARGET_USE_QTI_BT_SAR := true
 TARGET_USE_QTI_BT_CHANNEL_AVOIDANCE := true
 BOARD_USES_COMMON_BLUETOOTH_HAL := true
 
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := trinket
+TARGET_NO_BOOTLOADER := true
+
 # Camera
 TARGET_NEEDS_RAW10_BUFFER_FIX := true
-TARGET_SUPPORT_HAL1 := false
 TARGET_USES_QTI_CAMERA_DEVICE := true
 USE_DEVICE_SPECIFIC_CAMERA := true
+
+# Disable sparse on all filesystem images
+TARGET_USERIMAGES_SPARSE_EROFS_DISABLED := true
+TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
+TARGET_USERIMAGES_SPARSE_F2FS_DISABLED := true
 
 # Display
 TARGET_USES_HWC2 := true
 TARGET_USES_DRM_PP := true
 TARGET_USES_GRALLOC1 := true
 TARGET_USES_ION := true
+USE_OPENGL_RENDERER := true
 
-# DRM
-TARGET_ENABLE_MEDIADRM_64 := true
-
-# Enable dexpreopt to speed boot time
-ifeq ($(HOST_OS),linux)
-  ifneq ($(TARGET_BUILD_VARIANT),eng)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-      WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true
-    endif
-  endif
-endif
-
-# FM
-BOARD_HAVE_QCOM_FM := true
-BOARD_HAS_QCA_FM_SOC := cherokee
+# DPI
+TARGET_SCREEN_DENSITY := 320
 
 # GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
 LOC_HIDL_VERSION := 4.0
+TARGET_USES_HARDWARE_QCOM_GPS := false
 
-# HIDL
+# HWUI
+HWUI_COMPILE_FOR_PERF := true
+
+# Init
+TARGET_INIT_VENDOR_LIB := libinit_r5x
+TARGET_RECOVERY_DEVICE_MODULES := libinit_r5x
+
+# Inherit the proprietary files
+-include vendor/realme/r5x/BoardConfigVendor.mk
+
+# Kernel
+BOARD_BOOT_HEADER_VERSION := 1
+BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_CMDLINE := \
+    console=ttyMSM0,115200n8 \
+    console=null \
+    androidboot.hardware=qcom \
+    androidboot.console=ttyMSM0 \
+    lpm_levels.sleep_disabled=1 \
+    msm_rtb.filter=0x237 \
+    service_locator.enable=1 \
+    swiotlb=1 \
+    earlycon=msm_geni_serial,0x4a90000 \
+    loop.max_part=7 \
+    cgroup_disable=pressure \
+    cgroup.memory=nokmem,nosocket
+
+BOARD_KERNEL_CMDLINE += androidboot.android_dt_dir=/non-existent androidboot.boot_devices=soc/4744000.sdhci
+BOARD_KERNEL_CMDLINE += androidboot.init_fatal_reboot_target=recovery
+BOARD_KERNEL_CMDLINE += kpti=off
+BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
+BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_OFFSET := 0x00008000
+BOARD_KERNEL_SEPARATED_DTBO := true
+TARGET_KERNEL_SOURCE := kernel/realme/r5x
+TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_CONFIG := vendor/r5x_defconfig
+TARGET_KERNEL_OPTIONAL_LD := true
+TARGET_KERNEL_ADDITIONAL_FLAGS := \
+   HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
+
+# Manifests and SKU
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/configs/manifests/manifest.xml
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/manifests/compatibility_matrix.xml
 ODM_MANIFEST_SKUS += nfc_ese
 ODM_MANIFEST_NFC_ESE_FILES := $(DEVICE_PATH)/configs/manifests/manifest_nfc_ese.xml
-
-# Keystore
-TARGET_PROVIDES_KEYMASTER := true
 
 # Media
 TARGET_DISABLED_UBWC := true
@@ -156,11 +138,11 @@ TARGET_USES_NQ_NFC := true
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
-BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
 BOARD_DTBOIMG_PARTITION_SIZE := 8388608
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 402653184
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x04000000
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
@@ -192,12 +174,23 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 BOARD_USES_METADATA_PARTITION := true
 
-TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/config.fs
+TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/config.fs
+
+# Platform
+TARGET_BOARD_PLATFORM := trinket
+
+# Properties
+BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/props/system.prop
+TARGET_PRODUCT_PROP += $(DEVICE_PATH)/configs/props/product.prop
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/props/vendor.prop
+
+# QCOM hardware
+BOARD_USES_QCOM_HARDWARE := true
 
 # Recovery
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_INCLUDE_RECOVERY_DTBO := true
-BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 
@@ -206,7 +199,6 @@ TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
 # RIL
 ENABLE_VENDOR_RIL_SERVICE := true
-TARGET_PROVIDES_QTI_TELEPHONY_JAR := true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2022-09-05
@@ -218,10 +210,6 @@ SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 BOARD_SEPOLICY_M4DEFS += \
      sysfs_battery_supply=vendor_sysfs_battery_supply \
      sysfs_usb_supply=vendor_sysfs_usb_supply
-
-# Treble
-PRODUCT_VENDOR_MOVE_ENABLED := true
-BOARD_VNDK_VERSION := current
 
 # WiFi
 BOARD_WLAN_DEVICE := qcwcn
@@ -236,6 +224,3 @@ WIFI_DRIVER_STATE_OFF := "OFF"
 WIFI_DRIVER_STATE_ON := "ON"
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
-
-# Inherit the proprietary files
--include vendor/realme/r5x/BoardConfigVendor.mk
